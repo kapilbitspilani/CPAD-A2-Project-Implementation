@@ -11,7 +11,7 @@
       <img
         alt="..."
         class="w-full rounded-full align-middle border-none shadow-lg"
-        src="assets/img/team-1-800x800.jpg"
+        src="assets/img/sketch.jpg"
       />
     </span>
   </div>
@@ -22,29 +22,22 @@
     [ngClass]="dropdownPopoverShow ? 'block' : 'hidden'"
   >
     <a
-      href="#pablo"
+       [routerLink]="['settings']"
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
     >
-      Action
+      Profile
     </a>
     <a
-      href="#pablo"
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
     >
-      Another action
-    </a>
-    <a
-      href="#pablo"
-      class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-    >
-      Something else here
+      Portfolio
     </a>
     <div class="h-0 my-2 border border-solid border-blueGray-100"></div>
     <a
-      href="#pablo"
+      [routerLink]="['/auth/login']" 
       class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
     >
-      Seprated link
+      Logout
     </a>
   </div>
 </div>
