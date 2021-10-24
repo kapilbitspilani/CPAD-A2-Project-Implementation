@@ -1,0 +1,195 @@
+<div class="container mx-auto px-4 h-full">
+  <div class="flex content-center items-center justify-center h-full">
+    <div class="w-full lg:w-6/12 px-4">
+      <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
+        <div class="rounded-t mb-0 px-6 py-6">
+          <div class="text-center mb-3">
+            <h6 class="text-blueGray-500 text-xl font-bold">
+              Buy
+            </h6>
+          </div>
+          <hr class="mt-6 border-b-1 border-blueGray-300" />
+        </div>
+        <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+          <form>
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Stock
+              </label>
+              <select (change)="selectStock($event.target.value)" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-gray rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                <option *ngFor="let stock of stocks" [value]="stock.id">{{stock.company + '  (' + (stock.price  | currency:'INR') + ')'}}</option>
+              </select>
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Price
+              </label>
+              <input type="text"
+                     class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-gray rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                     placeholder="Price" disabled="disabled" [(value)]="selectedItem.price" />
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Available Balance: {{availableBalance | currency:'INR'}}
+              </label>
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Number of shares
+              </label>
+              <input type="number" [(ngModel)]="numberOfShares" name="numberOfShares"
+                     class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                     placeholder="Number of shares" />
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Total: {{numberOfShares*selectedItem.price | number:'1.0-2'}}
+              </label>
+            </div>
+
+            <div class="text-center mt-6">
+              <button class="bg-emerald-500 text-white active:bg-emerald-500 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="button" (click)="buyStocks()">
+                Buy
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sell -->
+
+    <div class="w-full lg:w-6/12 px-4">
+      <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-white border-0">
+        <div class="rounded-t mb-0 px-6 py-6">
+          <div class="text-center mb-3">
+            <h6 class="text-blueGray-500 text-xl font-bold">
+              Sell
+            </h6>
+          </div>
+          <hr class="mt-6 border-b-1 border-blueGray-300" />
+        </div>
+        <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
+          <form>
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Stock
+              </label>
+              <select (change)="selectStockToSell($event.target.value)" class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-gray rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150">
+                <option *ngFor="let stock of stocks" [value]="stock.id">{{stock.company + '  (' + (stock.price  | currency:'INR') + ')'}}</option>
+              </select>
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Price
+              </label>
+              <input type="text"
+                     class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-gray rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                     placeholder="Price" disabled="disabled" [(value)]="selectedItemToSell.price" />
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Available Shares : {{getAvailableShares(selectedItemToSell.id)}}
+              </label>
+              <input type="number" [(ngModel)]="numberOfSharesToSell" name="numberOfSharesToSell"
+                     class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                     placeholder="Shares to sell" />
+            </div>
+
+            <div class="relative w-full mb-3">
+              <label class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                     htmlFor="grid-password">
+                Total: {{numberOfSharesToSell*selectedItemToSell.price | number:'1.0-2'}}
+              </label>
+            </div>
+
+            <div class="text-center mt-6">
+              <button class="bg-red-600 text-white active:bg-red-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                      type="button" (click)="sellStocks()">
+                Sell
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
+  <div class="rounded-t mb-0 px-4 py-3 border-0">
+    <div class="flex flex-wrap items-center">
+      <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+        <h3 class="font-semibold text-base text-blueGray-700">Transactions</h3>
+      </div>
+      <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
+        <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                type="button">
+          See all
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="block w-full overflow-x-auto">
+    <!-- Projects table -->
+    <table class="items-center w-full bg-transparent border-collapse">
+      <thead>
+        <tr>
+          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+            Company name
+          </th>
+          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+            Price (₹)
+          </th>
+          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+            Shares
+          </th>
+          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+            Date
+          </th>
+          <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+            Type
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions">
+          <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left">
+            {{transaction.stockName}}
+          </th>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            {{transaction.price}}
+
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            {{transaction.numberOfStocks}}
+
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            {{transaction.purchaseDate}}
+
+          </td>
+          <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            <i *ngIf="transaction.transactionType == 'Buy'" class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+            <i *ngIf="transaction.transactionType == 'Sell'" class="fas fa-arrow-down text-red-500 mr-4"></i>
+            {{transaction.transactionType}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
