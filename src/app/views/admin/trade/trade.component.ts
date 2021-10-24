@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AvailableStock } from '../../../models/availableShare';
 import { StockTransaction } from "../../../models/StockTransaction";
 import { Stock } from '../../../models/stock';
 

@@ -11,6 +11,6 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void { }
 
   login() {
-    this.router.navigate(['admin', 'dashboard']);
+    this.router.navigate(['auth', 'login']);
   }
 }
